@@ -12,11 +12,19 @@ var PillarPair = cc.Node.extend({
     this.addChild(this.bottomPillar);
   },
 
+  randomPositionY: function() {
+    var max = 420;
+    var min = 180;
+    var randomPos = (Math.floor(Math.random() * (max - min))) + min;
+    this.setPosition(new cc.Point(900, randomPos));
+    console.log(randomPos);
+  },
+
   update: function(dt) {
     this.setPositionX(this.getPositionX() - 5);
     var pos = this.getPosition();
     if(pos.x < 0) {
-      this.setPosition(new cc.Point(900, 300));
+      this.randomPositionY();
     }
   },
 
