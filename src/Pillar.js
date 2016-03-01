@@ -20,4 +20,10 @@ var PillarPair = cc.Node.extend({
     }
   },
 
+  hit: function(player) {
+  var playerPos = player.getPosition();
+  var myPos = this.getPosition();
+  return checkPlayerPillarCollision( playerPos.x, playerPos.y, myPos.x, myPos.y );
+  }
+
 });

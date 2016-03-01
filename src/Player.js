@@ -20,6 +20,10 @@ var Player = cc.Sprite.extend({
 
   start: function() {
     this.started = true;
+  },
+
+  stop: function() {
+    this.started = false;
   }
 });
 Player.G = -0.85;
