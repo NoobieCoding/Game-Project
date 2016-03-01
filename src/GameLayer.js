@@ -7,6 +7,12 @@ var GameLayer = cc.LayerColor.extend({
     this.player = new Player();
     this.player.setPosition(new cc.Point(screenWidth / 2, screenHeight / 2));
     this.addChild(this.player);
+
+    this.pillarPair = new PillarPair();
+    this.pillarPair.setPosition( new cc.Point( 700, 300 ) );
+    this.addChild( this.pillarPair );
+
+    this.pillarPair.scheduleUpdate();
     this.player.scheduleUpdate();
     this.addKeyboardHandlers();
 
@@ -30,6 +36,7 @@ var GameLayer = cc.LayerColor.extend({
     if (this.state == GameLayer.STATES.FRONT) {
       this.state = GameLayer.STATES.STARTED;
       this.player.start();
+      this.pillarPair.start();
     } else if (this.state == GameLayer.STATES.STARTED) {
       this.player.jump();
     }
