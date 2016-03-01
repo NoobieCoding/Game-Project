@@ -5,10 +5,12 @@ var GameLayer = cc.LayerColor.extend({
     this.state = GameLayer.STATES.FRONT;
 
     this.player = new Player();
-    this.player.setPosition(new cc.Point(screenWidth / 2, screenHeight / 2));
+    this.player.setPosition(new cc.Point(screenWidth / 3, screenHeight / 3));
     this.addChild(this.player, 1);
 
     this.pillarPair = null;
+    this.pillarPair2 = null;
+    this.pillarPair3 = null;
 
     this.player.scheduleUpdate();
     this.scheduleUpdate();
@@ -17,16 +19,28 @@ var GameLayer = cc.LayerColor.extend({
     return true;
   },
 
-  createPillarPair: function() {
-    this.pillarPair = new PillarPair();
+  createPillarPairs: function() {
+    this.pillarPair = new PillarPair(1);
     this.pillarPair.randomPositionY();
     this.addChild(this.pillarPair);
     this.pillarPair.scheduleUpdate();
+
+    this.pillarPair2 = new PillarPair(2);
+    this.pillarPair2.randomPositionY();
+    this.addChild(this.pillarPair2);
+    this.pillarPair2.scheduleUpdate();
+
+    this.pillarPair3 = new PillarPair(3);
+    this.pillarPair3.randomPositionY();
+    this.addChild(this.pillarPair3);
+    this.pillarPair3.scheduleUpdate();
   },
 
   update: function(dt) {
     if (this.state == GameLayer.STATES.STARTED) {
-      if (this.pillarPair && this.pillarPair.hit(this.player)) {
+      if (this.pillarPair && this.pillarPair.hit(this.player) ||
+      this.pillarPair2 && this.pillarPair2.hit(this.player) ||
+      this.pillarPair3 && this.pillarPair3.hit(this.player)) {
         this.endGame();
         this.state = GameLayer.STATES.DEAD;
       }
@@ -60,7 +74,7 @@ var GameLayer = cc.LayerColor.extend({
   },
 
   startGame: function() {
-    this.createPillarPair();
+    this.createPillarPairs();
     this.player.start();
     this.player.jump();
   },
@@ -69,6 +83,12 @@ var GameLayer = cc.LayerColor.extend({
     this.player.stop();
     if (this.pillarPair) {
       this.pillarPair.unscheduleUpdate();
+    }
+    if (this.pillarPair2) {
+      this.pillarPair2.unscheduleUpdate();
+    }
+    if (this.pillarPair3) {
+      this.pillarPair3.unscheduleUpdate();
     }
   }
 });
