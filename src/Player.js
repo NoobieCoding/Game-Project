@@ -9,7 +9,12 @@ var Player = cc.Sprite.extend({
   var pos = this.getPosition();
   this.setPosition(new cc.Point(pos.x, pos.y + this.vy));
   this.vy += Player.G;
+  },
+
+  jump: function() {
+    this.vy = Player.JUMPING_VELOCITY;
   }
 });
-Player.G = -1;
+Player.G = -0.85;
 Player.STARTING_VELOCITY = 15;
+Player.JUMPING_VELOCITY = 15;
