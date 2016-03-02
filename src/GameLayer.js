@@ -1,6 +1,6 @@
 var GameLayer = cc.LayerColor.extend({
   init: function() {
-    this._super(new cc.Color(127, 127, 127, 255));
+    this._super(new cc.Color(144, 238, 144, 144));
     this.setPosition(new cc.Point( 0, 0 ));
     this.state = GameLayer.STATES.FRONT;
 
@@ -11,6 +11,11 @@ var GameLayer = cc.LayerColor.extend({
     this.pillarPair = null;
     this.pillarPair2 = null;
     this.pillarPair3 = null;
+    this.pillarPair4 = null;
+
+    this.scoreLabel = cc.LabelTTF.create('0', 'Arial', 40);
+    this.scoreLabel.setPosition(new cc.Point(50, 550));
+    this.addChild(this.scoreLabel);
 
     this.player.scheduleUpdate();
     this.scheduleUpdate();
@@ -34,16 +39,23 @@ var GameLayer = cc.LayerColor.extend({
     this.pillarPair3.randomPositionY();
     this.addChild(this.pillarPair3);
     this.pillarPair3.scheduleUpdate();
+
+    this.pillarPair4 = new PillarPair(4);
+    this.pillarPair4.randomPositionY();
+    this.addChild(this.pillarPair4);
+    this.pillarPair4.scheduleUpdate();
   },
 
   update: function(dt) {
     if (this.state == GameLayer.STATES.STARTED) {
       if (this.pillarPair && this.pillarPair.hit(this.player) ||
       this.pillarPair2 && this.pillarPair2.hit(this.player) ||
-      this.pillarPair3 && this.pillarPair3.hit(this.player)) {
+      this.pillarPair3 && this.pillarPair3.hit(this.player) ||
+      this.pillarPair4 && this.pillarPair4.hit(this.player)) {
         this.endGame();
         this.state = GameLayer.STATES.DEAD;
       }
+    this.player.addTravelDistance(this.scoreLabel);
     }
   },
 
@@ -90,6 +102,10 @@ var GameLayer = cc.LayerColor.extend({
     if (this.pillarPair3) {
       this.pillarPair3.unscheduleUpdate();
     }
+    if (this.pillarPair4) {
+      this.pillarPair4.unscheduleUpdate();
+    }
+    this.unscheduleUpdate();
   }
 });
 

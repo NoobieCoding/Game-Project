@@ -6,6 +6,8 @@ var PillarPair = cc.Node.extend({
     this.positionX = PillarPair.POSX.NUM2;
     else if(number ===3)
     this.positionX = PillarPair.POSX.NUM3;
+    else if(number ===4)
+    this.positionX = PillarPair.POSX.NUM4;
     this._super();
     this.topPillar = cc.Sprite.create('res/images/pillar.png');
     this.topPillar.setAnchorPoint(new cc.Point(0.5, 0));
@@ -30,10 +32,10 @@ var PillarPair = cc.Node.extend({
     var pos = this.getPosition();
     if(pos.x < 0) {
       if(this.positionX = PillarPair.POSX.NUM1)
-        this.randomPositionY(PillarPair.POSX.NUM3);
-      else if(this.positionX = PillarPair.POSX.NUM3)
+        this.randomPositionY(PillarPair.POSX.NUM4);
+      else if(this.positionX = PillarPair.POSX.NUM4)
         this.randomPositionY(PillarPair.POSX.NUM1);
-      else(this.positionX = PillarPair.POSX.NUM2)
+      else(this.positionX = PillarPair.POSX.NUM2 || this.positionX == PillarPair.POSX.NUM3)
         this.randomPositionY(this.positionX);
     }
   },
@@ -48,5 +50,6 @@ var PillarPair = cc.Node.extend({
 PillarPair.POSX = {
   NUM1: 900,
   NUM2: 700,
-  NUM3: 500
+  NUM3: 500,
+  NUM4: 1100
 };

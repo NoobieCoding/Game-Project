@@ -4,6 +4,7 @@ var Player = cc.Sprite.extend({
     this.initWithFile('res/images/dot.png');
     this.vy = Player.STARTING_VELOCITY;
     this.started = false;
+    this.travelDistance = 0;
   },
 
   update: function(dt) {
@@ -24,6 +25,14 @@ var Player = cc.Sprite.extend({
 
   stop: function() {
     this.started = false;
+  },
+
+  addTravelDistance: function(scoreLabel) {
+    this.travelDistance += 5;
+    if(this.travelDistance % 200 == 0) {
+      score += 10;
+      scoreLabel.setString(score+"");
+    }
   }
 });
 Player.G = -0.85;
