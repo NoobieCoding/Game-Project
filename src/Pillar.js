@@ -1,21 +1,21 @@
 var PillarPair = cc.Node.extend({
   ctor: function(number) {
     if(number === 1)
-    this.positionX = PillarPair.POSX.NUM1;
+      this.positionX = PillarPair.POSX.NUM1;
     else if(number === 2)
-    this.positionX = PillarPair.POSX.NUM2;
+      this.positionX = PillarPair.POSX.NUM2;
     else if(number ===3)
-    this.positionX = PillarPair.POSX.NUM3;
+      this.positionX = PillarPair.POSX.NUM3;
     else if(number ===4)
-    this.positionX = PillarPair.POSX.NUM4;
-    this.gap = Math.floor(Math.random() * 60) + 80;
+      this.positionX = PillarPair.POSX.NUM4;
+    this.gap = Math.floor(Math.random() * 50) + 80;
     this._super();
     this.topPillar = cc.Sprite.create('res/images/pillar.png');
     this.topPillar.setAnchorPoint(new cc.Point(0.5, 0));
     this.topPillar.setPosition(new cc.Point(0, this.gap));
     this.addChild(this.topPillar);
 
-    this.bottomPillar = cc.Sprite.create('res/images/pillar.png');
+    this.bottomPillar = cc.Sprite.create('res/images/pillar2.png');
     this.bottomPillar.setAnchorPoint(new cc.Point(0.5, 1));
     this.bottomPillar.setPosition(new cc.Point(0, -this.gap));
     this.addChild(this.bottomPillar);

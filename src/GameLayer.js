@@ -15,10 +15,10 @@ var GameLayer = cc.LayerColor.extend({
 
     this.scoreLabel = cc.LabelTTF.create('0', 'Arial', 40);
     this.scoreLabel.setPosition(new cc.Point(50, 550));
-    this.addChild(this.scoreLabel);
+    this.addChild(this.scoreLabel, 2);
 
-    this.player.scheduleUpdate();
-    this.scheduleUpdate();
+    this.createPillarPairs();
+
     this.addKeyboardHandlers();
 
     return true;
@@ -28,22 +28,18 @@ var GameLayer = cc.LayerColor.extend({
     this.pillarPair = new PillarPair(1);
     this.pillarPair.randomPositionY();
     this.addChild(this.pillarPair);
-    this.pillarPair.scheduleUpdate();
 
     this.pillarPair2 = new PillarPair(2);
     this.pillarPair2.randomPositionY();
     this.addChild(this.pillarPair2);
-    this.pillarPair2.scheduleUpdate();
 
     this.pillarPair3 = new PillarPair(3);
     this.pillarPair3.randomPositionY();
     this.addChild(this.pillarPair3);
-    this.pillarPair3.scheduleUpdate();
 
     this.pillarPair4 = new PillarPair(4);
     this.pillarPair4.randomPositionY();
     this.addChild(this.pillarPair4);
-    this.pillarPair4.scheduleUpdate();
   },
 
   update: function(dt) {
@@ -78,8 +74,9 @@ var GameLayer = cc.LayerColor.extend({
       this.startGame();
     } else if(this.state == GameLayer.STATES.STARTED) {
       this.player.jump();
-    } else if(this.state == GameLayer,STATES.DEAD) {
-      reset();
+    } else if(this.state == GameLayer.STATES.DEAD && keyCode == 82) {
+      this.player.setPosition(new cc.Point(screenWidth / 3, screenHeight / 3));
+      this.reset();
     }
 
   },
@@ -88,9 +85,15 @@ var GameLayer = cc.LayerColor.extend({
   },
 
   startGame: function() {
-    this.createPillarPairs();
+    this.player.setPosition(new cc.Point(screenWidth / 3, screenHeight / 3));
     this.player.start();
     this.player.jump();
+    this.scheduleUpdate();
+    this.player.scheduleUpdate();
+    this.pillarPair.scheduleUpdate();
+    this.pillarPair2.scheduleUpdate();
+    this.pillarPair3.scheduleUpdate();
+    this.pillarPair4.scheduleUpdate();
   },
 
   endGame: function() {
@@ -110,7 +113,21 @@ var GameLayer = cc.LayerColor.extend({
   },
 
   reset: function() {
-    
+    score = 0;
+    this.player.travelDistance = 0;
+    this.scoreLabel.setString(score+"");
+    this.state = GameLayer.STATES.FRONT;
+
+    if(this.pillarPair)
+      this.removeChild(this.pillarPair);
+    if(this.pillarPair2)
+      this.removeChild(this.pillarPair2);
+    if(this.pillarPair3)
+      this.removeChild(this.pillarPair3);
+    if(this.pillarPair4)
+      this.removeChild(this.pillarPair4);
+
+    this.createPillarPairs();
   }
 });
 
