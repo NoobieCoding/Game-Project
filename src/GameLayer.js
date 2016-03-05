@@ -73,11 +73,13 @@ var GameLayer = cc.LayerColor.extend({
   },
 
   onKeyDown: function(keyCode, event) {
-    if (this.state == GameLayer.STATES.FRONT) {
+    if(this.state == GameLayer.STATES.FRONT) {
       this.state = GameLayer.STATES.STARTED;
       this.startGame();
-    } else if (this.state == GameLayer.STATES.STARTED) {
+    } else if(this.state == GameLayer.STATES.STARTED) {
       this.player.jump();
+    } else if(this.state == GameLayer,STATES.DEAD) {
+      reset();
     }
 
   },
@@ -92,7 +94,6 @@ var GameLayer = cc.LayerColor.extend({
   },
 
   endGame: function() {
-    this.player.stop();
     if (this.pillarPair) {
       this.pillarPair.unscheduleUpdate();
     }
@@ -106,6 +107,10 @@ var GameLayer = cc.LayerColor.extend({
       this.pillarPair4.unscheduleUpdate();
     }
     this.unscheduleUpdate();
+  },
+
+  reset: function() {
+    
   }
 });
 

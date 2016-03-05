@@ -8,15 +8,16 @@ var PillarPair = cc.Node.extend({
     this.positionX = PillarPair.POSX.NUM3;
     else if(number ===4)
     this.positionX = PillarPair.POSX.NUM4;
+    this.gap = Math.floor(Math.random() * 60) + 80;
     this._super();
     this.topPillar = cc.Sprite.create('res/images/pillar.png');
     this.topPillar.setAnchorPoint(new cc.Point(0.5, 0));
-    this.topPillar.setPosition(new cc.Point(0, 100));
+    this.topPillar.setPosition(new cc.Point(0, this.gap));
     this.addChild(this.topPillar);
 
     this.bottomPillar = cc.Sprite.create('res/images/pillar.png');
     this.bottomPillar.setAnchorPoint(new cc.Point(0.5, 1));
-    this.bottomPillar.setPosition(new cc.Point(0, -100));
+    this.bottomPillar.setPosition(new cc.Point(0, -this.gap));
     this.addChild(this.bottomPillar);
   },
 
@@ -43,7 +44,7 @@ var PillarPair = cc.Node.extend({
   hit: function(player) {
   var playerPos = player.getPosition();
   var myPos = this.getPosition();
-  return checkPlayerPillarCollision( playerPos.x, playerPos.y, myPos.x, myPos.y );
+  return checkPlayerPillarCollision( playerPos.x, playerPos.y, myPos.x, myPos.y, this.gap);
   }
 });
 
