@@ -12,8 +12,6 @@ var Player = cc.Sprite.extend({
       var pos = this.getPosition();
       this.setPosition(new cc.Point(pos.x, pos.y + this.vy));
       this.vy += Player.G;
-      if(pos.y < 0)
-        this.stop();
     }
   },
 
@@ -35,6 +33,12 @@ var Player = cc.Sprite.extend({
       score += 10;
       scoreLabel.setString(score+"");
     }
+  },
+
+  fall: function() {
+    var pos = this.getPosition();
+    var fallAction = cc.MoveTo.create( 0.3, new cc.Point( pos.x, -50 ) );
+    this.runAction( fallAction );
   }
 });
 Player.G = -0.85;

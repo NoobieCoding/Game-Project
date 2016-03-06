@@ -8,7 +8,7 @@ var PillarPair = cc.Node.extend({
       this.positionX = PillarPair.POSX.NUM3;
     else if(number ===4)
       this.positionX = PillarPair.POSX.NUM4;
-    this.gap = Math.floor(Math.random() * 50) + 80;
+    this.gap = Math.floor(Math.random() * 50) + 100;
     this._super();
     this.topPillar = cc.Sprite.create('res/images/pillar.png');
     this.topPillar.setAnchorPoint(new cc.Point(0.5, 0));

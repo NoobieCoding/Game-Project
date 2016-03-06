@@ -109,7 +109,9 @@ var GameLayer = cc.LayerColor.extend({
     if (this.pillarPair4) {
       this.pillarPair4.unscheduleUpdate();
     }
-    this.unscheduleUpdate();
+    this.unscheduleUpdate()
+    this.player.stop();
+    this.player.fall();
   },
 
   reset: function() {
