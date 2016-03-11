@@ -4,24 +4,42 @@ var GameLayer = cc.LayerColor.extend({
     this.setPosition(new cc.Point( 0, 0 ));
     this.state = GameLayer.STATES.FRONT;
 
-    this.player = new Player();
-    this.player.setPosition(new cc.Point(screenWidth / 3, screenHeight / 3));
-    this.addChild(this.player, 1);
+    this.createPlayer();
 
-    this.pillarPair = null;
-    this.pillarPair2 = null;
-    this.pillarPair3 = null;
-    this.pillarPair4 = null;
+    this.createScoreLabel();
 
-    this.scoreLabel = cc.LabelTTF.create('0', 'Arial', 40);
-    this.scoreLabel.setPosition(new cc.Point(50, 550));
-    this.addChild(this.scoreLabel, 2);
-
+    this.createNullPillarPairs();
     this.createPillarPairs();
 
     this.addKeyboardHandlers();
 
+    this.createBackgroundMusic();
+
     return true;
+  },
+
+  createPlayer: function() {
+    this.player = new Player();
+    this.player.setPosition(new cc.Point(screenWidth / 3, screenHeight / 3));
+    this.addChild(this.player, 1);
+  },
+
+  createScoreLabel: function() {
+    this.scoreLabel = cc.LabelTTF.create('0', 'Arial', 40);
+    this.scoreLabel.setPosition(new cc.Point(50, 550));
+    this.addChild(this.scoreLabel, 2);
+  },
+
+  createBackgroundMusic: function() {
+    cc.audioEngine.playMusic('res/effects/bgm.wav', true);
+    cc.audioEngine.setMusicVolume((0.25));
+  },
+
+  createNullPillarPairs: function() {
+    this.pillarPair = null;
+    this.pillarPair2 = null;
+    this.pillarPair3 = null;
+    this.pillarPair4 = null;
   },
 
   createPillarPairs: function() {
@@ -48,6 +66,7 @@ var GameLayer = cc.LayerColor.extend({
       this.pillarPair2 && this.pillarPair2.hit(this.player) ||
       this.pillarPair3 && this.pillarPair3.hit(this.player) ||
       this.pillarPair4 && this.pillarPair4.hit(this.player)) {
+        cc.audioEngine.playEffect('res/effects/hit.wav');
         this.endGame();
         this.state = GameLayer.STATES.DEAD;
       }
@@ -73,6 +92,7 @@ var GameLayer = cc.LayerColor.extend({
       this.state = GameLayer.STATES.STARTED;
       this.startGame();
     } else if(this.state == GameLayer.STATES.STARTED) {
+      cc.audioEngine.playEffect('res/effects/fly.wav');
       this.player.jump();
     } else if(this.state == GameLayer.STATES.DEAD && keyCode == 82) {
       this.player.setPosition(new cc.Point(screenWidth / 3, screenHeight / 3));
@@ -115,11 +135,22 @@ var GameLayer = cc.LayerColor.extend({
   },
 
   reset: function() {
+    this.resetScore();
+
+    this.state = GameLayer.STATES.FRONT;
+
+    this.removePillarPairs();
+
+    this.createPillarPairs();
+  },
+
+  resetScore: function() {
     score = 0;
     this.player.travelDistance = 0;
     this.scoreLabel.setString(score+"");
-    this.state = GameLayer.STATES.FRONT;
+  },
 
+  removePillarPairs() {
     if(this.pillarPair)
       this.removeChild(this.pillarPair);
     if(this.pillarPair2)
@@ -128,8 +159,6 @@ var GameLayer = cc.LayerColor.extend({
       this.removeChild(this.pillarPair3);
     if(this.pillarPair4)
       this.removeChild(this.pillarPair4);
-
-    this.createPillarPairs();
   }
 });
 
